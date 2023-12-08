@@ -2,6 +2,7 @@ import jwt
 from flask import current_app, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
+from sqlalchemy.orm import relationship
 
 from restdemo.app import db
 
@@ -10,6 +11,8 @@ class User(db.Model):
   username = db.Column(db.String(64), unique=True, nullable=False)
   password = db.Column(db.String(255))
   email = db.Column(db.String(64))
+  
+  tweet = relationship('Tweet')
 
   def __repr__(self):
     return f"id={self.id} username={self.username} email={self.email}"

@@ -4,10 +4,12 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+from model.tweet import Tweet
 from resource.user import User, UserList
 from resource.hello import Helloworld
 from resource.auth import Login
 from config import Config
+
 
 app = Flask(__name__)
 api = Api(app)
