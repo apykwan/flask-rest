@@ -1,6 +1,5 @@
 from flask import request, current_app
 from flask_restful import Resource, Api, reqparse
-import jwt 
 
 from resource.utils import min_length_str, jwt_required
 from restdemo.model.user import User as UserModel
@@ -61,6 +60,7 @@ class User(Resource):
     return user.as_dict(), 201
 
 class UserList(Resource):
+  @jwt_required
   def get(self):
     users = UserModel.get_user_list()
     return [u.as_dict() for u in users]

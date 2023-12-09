@@ -1,4 +1,5 @@
 from flask import request, current_app
+import inspect
 import jwt
 
 def min_length_str(min_length):
@@ -17,11 +18,13 @@ def jwt_required(fn):
   def decode_token(*args, **kwargs):
     token = request.headers.get('Authorization')
     try:
-      jwt.decode(
+      data = jwt.decode(
         token,
         current_app.config.get('SECRET'),
         algorithms='HS256'
       )
+      if 'sub' in inspect.signature(fn).parameters:
+        kwargs['sub'] = data['sub']
     except jwt.ExpiredSignatureError:
       return { "message": "Expired token. Please login to get a new token" }
     except jwt.InvalidTokenError:

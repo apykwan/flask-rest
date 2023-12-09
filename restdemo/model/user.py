@@ -7,6 +7,8 @@ from sqlalchemy.orm import relationship
 from restdemo.app import db
 
 class User(db.Model):
+  __table_args__ = {'extend_existing': True}
+  __tablename__ = "user"
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(64), unique=True, nullable=False)
   password = db.Column(db.String(255))
@@ -40,7 +42,7 @@ class User(db.Model):
   def generate_token(self):
     try:
       payload = {
-        'exp': datetime.utcnow() + timedelta(minutes=5),
+        'exp': datetime.utcnow() + timedelta(days=30),
         'iat': datetime.utcnow(),
         'sub': self.username
       }
