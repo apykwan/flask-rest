@@ -5,8 +5,9 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import relationship
 
 from restdemo.app import db
+from restdemo.model.base import Base
 
-class User(db.Model):
+class User(Base):
   __table_args__ = {'extend_existing': True}
   __tablename__ = "user"
   id = db.Column(db.Integer, primary_key=True)
@@ -27,17 +28,6 @@ class User(db.Model):
 
   def check_password(self, password):
     return check_password_hash(self.password, password)
-
-  def add(self):
-    db.session.add(self)
-    db.session.commit()
-
-  def update(self):
-    db.session.commit()
-
-  def delete(self):
-    db.session.delete(self)
-    db.session.commit()
 
   def generate_token(self):
     try:

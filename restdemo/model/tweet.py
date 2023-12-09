@@ -2,9 +2,9 @@ from sqlalchemy import ForeignKey, func
 from datetime import datetime
 
 from restdemo.app import db
+from restdemo.model.base import Base
 
-class Tweet(db.Model):
-  __table_args__ = {'extend_existing': True}
+class Tweet(Base):
   __tablename__ = "tweet"
   id = db.Column(db.Integer, primary_key=True)
   user_id = db.Column(db.Integer, ForeignKey('user.id'))
@@ -16,10 +16,6 @@ class Tweet(db.Model):
         self.user_id, self.body
     )
   
-  def add(self):
-    db.session.add(self)
-    db.session.commit()
-
   def as_dict(self):
     t = {c.name: getattr(self, c.name) for c in self.__table__.columns}
     t['created_at'] = t['created_at'].isoformat()
