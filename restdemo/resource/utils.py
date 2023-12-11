@@ -25,6 +25,7 @@ def jwt_required(fn):
       )
       if 'sub' in inspect.signature(fn).parameters:
         kwargs['sub'] = data['sub']
+        
     except jwt.ExpiredSignatureError:
       return { "message": "Expired token. Please login to get a new token" }
     except jwt.InvalidTokenError:

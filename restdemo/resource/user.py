@@ -27,7 +27,7 @@ class User(Resource):
 
   def post(self, username):
     check_exist_user = UserModel.get_by_username(username)
-    if check_exist_user: return { "message": "username has been taken" }
+    if check_exist_user: return { "message": "username has been taken" }, 400
       
     data = User.parser.parse_args()
     user = UserModel(
@@ -60,4 +60,4 @@ class UserList(Resource):
   @jwt_required
   def get(self):
     users = UserModel.get_user_list()
-    return [u.as_dict() for u in users]
+    return [u.as_dict() for u in users], 201
