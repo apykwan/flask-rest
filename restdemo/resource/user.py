@@ -1,7 +1,7 @@
 from flask import request, current_app
 from flask_restful import Resource, Api, reqparse
 
-from resource.utils import min_length_str, jwt_required
+from restdemo.resource.utils import min_length_str, jwt_required
 from restdemo.model.user import User as UserModel
 
 class User(Resource):
@@ -25,7 +25,6 @@ class User(Resource):
     
     return user.as_dict(), 201
 
-  @jwt_required
   def post(self, username):
     check_exist_user = UserModel.get_by_username(username)
     if check_exist_user: return { "message": "username has been taken" }
@@ -40,22 +39,20 @@ class User(Resource):
     user.add()
     return user.as_dict(), 201
 
-  @jwt_required
   def delete(self, username):
     user = UserModel.get_by_username(username)
-    if not user: return { "message": "no such user" }
+    if not user: return { "message": "no such user" }, 404
 
     user.delete()
-    return { "message": "user deleted" }, 201
+    return { "message": "user deleted" }, 200
 
-  @jwt_required
   def put(self, username):
     user = UserModel.get_by_username(username)
-    if not user: return { "message": "no such user" }
+    if not user: return { "message": "no such user" }, 404
 
     data = User.parser.parse_args()
     user.email = data['email']
-    
+    user.set_password(data['password'])
     user.update()
     return user.as_dict(), 201
 

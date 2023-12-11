@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey, func
 from datetime import datetime
 
-from restdemo.app import db
+from restdemo import db
 from restdemo.model.base import Base
 
 class Tweet(Base):

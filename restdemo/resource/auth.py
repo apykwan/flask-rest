@@ -1,7 +1,7 @@
 from flask_restful import Resource, Api, reqparse 
 
-from resource.utils import min_length_str
-from restdemo.app import db
+from restdemo.resource.utils import min_length_str
+from restdemo import db
 from restdemo.model.user import User as UserModel
 
 class Login(Resource):

@@ -1,4 +1,4 @@
-from restdemo.app import db
+from restdemo import db
 
 class Base(db.Model):
   __abstract__ = True

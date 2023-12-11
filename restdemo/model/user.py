@@ -4,11 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 from sqlalchemy.orm import relationship
 
-from restdemo.app import db
+from restdemo import db
 from restdemo.model.base import Base
 
 class User(Base):
-  __table_args__ = {'extend_existing': True}
   __tablename__ = "user"
   id = db.Column(db.Integer, primary_key=True)
   username = db.Column(db.String(64), unique=True, nullable=False)

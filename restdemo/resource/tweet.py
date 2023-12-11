@@ -1,8 +1,8 @@
 from flask_restful import Resource, reqparse
 
-from resource.utils import jwt_required
-from model.user import User as UserModel
-from model.tweet import Tweet as TweetModel
+from restdemo.resource.utils import jwt_required
+from restdemo.model.user import User as UserModel
+from restdemo.model.tweet import Tweet as TweetModel
 
 class Tweet(Resource):
   parser = reqparse.RequestParser()
