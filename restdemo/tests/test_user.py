@@ -1,30 +1,12 @@
-import unittest
 import json
 from werkzeug.security import check_password_hash
 
-from restdemo import create_app, db
+from restdemo.tests.base import Base
 
-class TestUser(unittest.TestCase):
-  def setUp(self):
-    self.app = create_app(config_name='testing')
-    self.client = self.app.test_client
-    self.user_data = {
-      'username': 'test',
-      'password': 'test123',
-      'email': 'test@test.com'
-    }
-    with self.app.app_context():
-      db.create_all()
-  
-  def tearDown(self):
-    with self.app.app_context():
-      db.session.remove()
-      db.drop_all()
-
+class TestUser(Base):
   def test_user_create(self):
-    url = f"/user/{self.user_data['username']}"
-
     # insert an user
+    url = f"/user/{self.user_data['username']}"
     res = self.client().post(
       url,
       data=json.dumps(self.user_data),
@@ -46,7 +28,8 @@ class TestUser(unittest.TestCase):
     self.assertEqual(res_data.get('message'), "username has been taken")
 
   def test_user_get(self):
-    url = '/user/{}'.format(self.user_data['username'])
+    # insert an user
+    url = f"/user/{self.user_data['username']}"
     res = self.client().post(
       url,
       data=json.dumps(self.user_data),
@@ -59,9 +42,8 @@ class TestUser(unittest.TestCase):
     self.assertEqual(res_data.get('email'), self.user_data['email'])
 
   def test_user_delete(self):
-    url = f"/user/{self.user_data['username']}"
-
     # insert an user
+    url = f"/user/{self.user_data['username']}"
     res = self.client().post(
       url,
       data=json.dumps(self.user_data),
@@ -82,9 +64,8 @@ class TestUser(unittest.TestCase):
     self.assertEqual(res_data, { "message": "no such user" })
 
   def test_user_update(self):
+    # insert an user
     url = f"/user/{self.user_data['username']}"
-
-     # insert an user
     res = self.client().post(
       url,
       data=json.dumps(self.user_data),

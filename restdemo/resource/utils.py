@@ -27,9 +27,9 @@ def jwt_required(fn):
         kwargs['sub'] = data['sub']
         
     except jwt.ExpiredSignatureError:
-      return { "message": "Expired token. Please login to get a new token" }
+      return { "message": "Expired token. Please login to get a new token" }, 401
     except jwt.InvalidTokenError:
-      return { "message": "Invalid token. Please register or login" }
+      return { "message": "Invalid token. Please register or login" }, 401
 
     return fn(*args, **kwargs)
   return decode_token
